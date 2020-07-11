@@ -19,7 +19,7 @@ namespace Interfaces
 
     public interface ILotsStorage
     {
-        void AddLot(Lot shop);
+        void AddLot(Lot lot);
         ICollection<Lot> SelectAllLots();
         void DeleteLot(int id_lot);
     }

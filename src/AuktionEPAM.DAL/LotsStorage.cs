@@ -52,6 +52,11 @@ namespace AuktionEPAM.DAL
                                       Convert.ToString(reader.GetValue(10)),
                                       Convert.ToString(reader.GetValue(11))
                                       ));
+                    var Lot = new Lot()
+                    {
+                        Id_lot = Convert.ToInt32(reader["Id_lot"])
+                        // доделать для других, чтобы убрать конструкторы
+                    };
                 }
                 return lots;
             }

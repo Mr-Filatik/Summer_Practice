@@ -12,6 +12,12 @@ namespace AuktionEPAM.ENTITY
         public int Start_price { get; set; }
         public DateTime Start_time { get; set; }
         public bool Status { get; set; }
+        // 1 убрать кто последний поставил на покупку (отдельную функцию для этого)
+        // 2 пустой конструктор -
+        // 3 отдельно доставать имена пользователей (желательно)
+        // 4 юзеров отдельной сущностью
+        // 5 вынести инттерфейсы в отдельные проекты bll.interface и для dal 
+        // 6 сделать повышение цены на лоты
 
         public int Finish_price { get; set; }
         public DateTime Finish_time { get; set; }
@@ -19,6 +25,8 @@ namespace AuktionEPAM.ENTITY
         public string Surname_1 { get; set; }
         public string Name_2 { get; set; }
         public string Surname_2 { get; set; }
+
+        public Lot() { }
 
         public Lot(int id_lot, 
                    int id_creator, 
