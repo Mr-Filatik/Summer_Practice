@@ -252,8 +252,9 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
-*.mdf
-*.ldf
+# interfere with loading the project on git
+# *.mdf
+# *.ldf
 *.ndf
 
 # Business Intelligence projects
