@@ -14,8 +14,9 @@ namespace Interfaces
     {
         void AddLot(Lot lot);
         ICollection<Lot> SelectAllLots();
-        ICollection<Lot> SelectMyLots();
+        ICollection<Lot> SelectMyLots(int id_user);
         void DeleteLot(int id_lot);
+        void AddBindLot(int id_user, int number, int price);
     }
 
     public interface ILotsStorage
@@ -24,5 +25,6 @@ namespace Interfaces
         ICollection<Lot> SelectAllLots();
         ICollection<Lot> SelectMyLots(int id_user);
         void DeleteLot(int id_lot);
+        void AddBindLot(int id_user, int number, int price);
     }
 }

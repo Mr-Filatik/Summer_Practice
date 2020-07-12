@@ -62,16 +62,16 @@ namespace AuktionEPAM.PL
                         SelectByUser();
                         break;
                     case 3:
-                        lots = ILotsManager.SelectMyLots();
+                        lots = ILotsManager.SelectMyLots(1);
                         ShowLots(lots);
                         SelectByUser();
                         break;
                     case 4:
                         Console.WriteLine("Введите номер выбранного лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Введите новыу цену лота");
+                        Console.WriteLine("Введите новую цену лота");
                         price = Convert.ToInt32(Console.ReadLine());
-                        ILotsManager.DeleteLot(id_lot);
+                        ILotsManager.AddBindLot(1, id_lot, price);
                         SelectByUser();
                         break;
                     case 5:

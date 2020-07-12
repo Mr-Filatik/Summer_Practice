@@ -80,6 +80,60 @@ namespace AuktionEPAM.DAL
             }
         }
 
+        public void AddBindLot(int id_user, int number, int price)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                if (Getlot(number) && Getprice(number) < price && price > 0)
+                {
+                    SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Bids_this_lot");
+                    sql_command.Parameters.Add(Function.Get_sql_parameter("v1", number, DbType.Int32));
+                    sql_command.Parameters.Add(Function.Get_sql_parameter("v2", id_user, DbType.Int32));
+                    sql_command.Parameters.Add(Function.Get_sql_parameter("v3", price, DbType.Int32));
+                    sql_command.Parameters.Add(Function.Get_sql_parameter("v4", DateTime.Now, DbType.DateTime));
+                    connection.Open();
+                    sql_command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool Getlot(int number)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Get_lot");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", number, DbType.Int32));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                bool ver = false;
+                while (reader.Read())
+                {
+                    if (Convert.ToInt32(reader.GetValue(0)) == 1)
+                    {
+                        ver = true;
+                    }
+                }
+                return ver;
+            }
+        }
+
+        public int Getprice(int number)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Get_price");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", number, DbType.Int32));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                int price = 0;
+                while (reader.Read())
+                {
+                    price = Convert.ToInt32(reader.GetValue(0));
+                }
+                return price;
+            }
+        }
+
         public void DeleteLot(int id_lot)
         {
             using (var connection = new SqlConnection(Function.connectionString))
