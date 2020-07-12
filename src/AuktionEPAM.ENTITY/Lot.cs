@@ -28,7 +28,7 @@ namespace AuktionEPAM.ENTITY
         */
         public Lot() { }
 
-        public Lot(int id_lot, 
+        /*public Lot(int id_lot, 
                    int id_creator, 
                    string name, 
                    int price, 
@@ -42,12 +42,12 @@ namespace AuktionEPAM.ENTITY
             Start_time = start_time;
             Status = status;
 
-            /*Finish_price = price;
+            Finish_price = price;
             Finish_time = start_time;
             Name_1 = null;
             Surname_1 = null;
             Name_2 = null;
-            Surname_2 = null;*/
+            Surname_2 = null;
         }
 
         public Lot(int id_lot, 
@@ -74,7 +74,7 @@ namespace AuktionEPAM.ENTITY
             Name_1 = n1;
             Surname_1 = sn1;
             Name_2 = n2;
-            Surname_2 = sn2;*/
-    }
+            Surname_2 = sn2;
+    }*/
     }
 }

@@ -13,6 +13,7 @@ namespace AuktionEPAM.DAL
     {
         static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\GitHub\G\src\AuktionEPAM.DAL\App_Data\DataBase.mdf;Integrated Security=True";
         UsersStorage usersStorage = new UsersStorage();
+
         public void AddLot(Lot lot)
         {
             using (var connection = new SqlConnection(connectionString))
