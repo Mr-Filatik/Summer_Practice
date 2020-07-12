@@ -58,6 +58,10 @@
       <Project>{cd7a226b-4b17-4b20-b9c2-d0049c74b6a2}</Project>
       <Name>AuktionEPAM.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AuktionEPAM.DAL\AuktionEPAM.DAL.csproj">
+      <Project>{F7489B14-FBA4-422F-9D41-78DF536E631A}</Project>
+      <Name>AuktionEPAM.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AuktionEPAM.ENTITY\AuktionEPAM.ENTITY.csproj">
       <Project>{1C9EFB92-9EFA-4A3D-8BE7-F2AA7F8A0DC1}</Project>
       <Name>AuktionEPAM.ENTITY</Name>

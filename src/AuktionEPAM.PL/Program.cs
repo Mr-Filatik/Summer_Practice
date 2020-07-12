@@ -32,6 +32,7 @@ namespace AuktionEPAM.PL
                 && result <= 5)
             {
                 int id_lot;
+                int price;
                 ICollection<Lot> lots = null;
                 switch (result)
                 {
@@ -41,8 +42,17 @@ namespace AuktionEPAM.PL
                         Console.WriteLine("Введите название добавляемого лота");
                         string name = Console.ReadLine();
                         Console.WriteLine("Введите цену для добавляемого лота");
-                        int price = Convert.ToInt32(Console.ReadLine());
-                        var newLot = new Lot(0, 1, name, price, DateTime.Now, false);
+                        price = Convert.ToInt32(Console.ReadLine());
+                        var newLot = new Lot()
+                        {
+                            Id_lot = 0,
+                            Id_creator = 1,
+                            Name = name,
+                            Start_price = price,
+                            Start_time = DateTime.Now,
+                            Status = false,
+                            Creator = null
+                        };
                         ILotsManager.AddLot(newLot);
                         SelectByUser();
                         break;
@@ -57,12 +67,15 @@ namespace AuktionEPAM.PL
                         SelectByUser();
                         break;
                     case 4:
+                        Console.WriteLine("Введите номер выбранного лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Введите новыу цену лота");
+                        price = Convert.ToInt32(Console.ReadLine());
                         ILotsManager.DeleteLot(id_lot);
                         SelectByUser();
                         break;
                     case 5:
-                        Console.WriteLine("Введите номер удяляемого лота");
+                        Console.WriteLine("Введите номер удаляемого лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
                         ILotsManager.DeleteLot(id_lot);
                         SelectByUser();
@@ -74,11 +87,9 @@ namespace AuktionEPAM.PL
         {
             foreach (Lot i in lots)
             {
-                Console.WriteLine("№ {0} Наименование: {1}", i.Id_lot, i.Name);
-                Console.WriteLine("Начало - Цена: {0} Время: {1}", i.Start_price, i.Start_price);
+                Console.WriteLine("Лот номер: {0}.  Наименование лота: {1}", i.Id_lot, i.Name);
+                Console.WriteLine("Цена: {0}.  Время изменения цены: {1}", i.Start_price, i.Start_time);
                 Console.WriteLine("Создатель: {0} {1}", i.Creator.Name, i.Creator.Surname);
-                //Console.WriteLine("Последнее - Цена: {0} Время: {1}", i.Finish_price, i.Finish_price);
-                //Console.WriteLine("Желающий: {0} {1}", i.Name_2, i.Surname_2);
                 Console.WriteLine();
             }
         }
