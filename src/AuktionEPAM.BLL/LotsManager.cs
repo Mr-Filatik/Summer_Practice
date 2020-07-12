@@ -10,6 +10,7 @@ namespace AuktionEPAM.BLL
     public class ILotsManager : Interfaces.ILotsManager
     {
         public static ILotsStorage iLotStorage;
+        private static int id_user = 1;
         
         public void AddLot(Lot lot)
         {
@@ -22,6 +23,11 @@ namespace AuktionEPAM.BLL
         public ICollection<Lot> SelectAllLots()
         {
             return iLotStorage.SelectAllLots();
+        }
+
+        public ICollection<Lot> SelectMyLots()
+        {
+            return iLotStorage.SelectMyLots(id_user);
         }
 
         public ILotsManager()

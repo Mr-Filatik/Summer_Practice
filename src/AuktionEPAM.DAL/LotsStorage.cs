@@ -11,8 +11,8 @@ namespace AuktionEPAM.DAL
 {
     public class LotsStorage : Interfaces.ILotsStorage
     {
-        static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\C#\AuktionEPAM\AuktionEPAM.DAL\App_Data\DataBase.mdf;Integrated Security=True";
-        
+        static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\GitHub\G\src\AuktionEPAM.DAL\App_Data\DataBase.mdf;Integrated Security=True";
+        UsersStorage usersStorage = new UsersStorage();
         public void AddLot(Lot lot)
         {
             using (var connection = new SqlConnection(connectionString))
@@ -22,7 +22,7 @@ namespace AuktionEPAM.DAL
                 sql_command.Parameters.Add(Get_sql_parameter("v2", lot.Name, DbType.String));
                 sql_command.Parameters.Add(Get_sql_parameter("v3", lot.Start_price, DbType.Int32));
                 sql_command.Parameters.Add(Get_sql_parameter("v4", lot.Start_time, DbType.DateTime));
-                sql_command.Parameters.Add(Get_sql_parameter("v5", 0, DbType.Int32));
+                sql_command.Parameters.Add(Get_sql_parameter("v5", lot.Status, DbType.Boolean));
                 connection.Open();
                 sql_command.ExecuteNonQuery();
             }
@@ -39,24 +39,43 @@ namespace AuktionEPAM.DAL
                 List<Lot> lots = new List<Lot>();
                 while (reader.Read())
                 {
-                    lots.Add(new Lot(Convert.ToInt32(reader.GetValue(0)),
-                                      Convert.ToInt32(reader.GetValue(1)),
-                                      Convert.ToString(reader.GetValue(2)),
-                                      Convert.ToInt32(reader.GetValue(3)),
-                                      Convert.ToDateTime(reader.GetValue(4)),
-                                      Convert.ToBoolean(reader.GetValue(5)),
-                                      Convert.ToInt32(reader.GetValue(6)),
-                                      Convert.ToDateTime(reader.GetValue(7)),
-                                      Convert.ToString(reader.GetValue(8)),
-                                      Convert.ToString(reader.GetValue(9)),
-                                      Convert.ToString(reader.GetValue(10)),
-                                      Convert.ToString(reader.GetValue(11))
-                                      ));
-                    var Lot = new Lot()
+                    lots.Add(new Lot()
                     {
-                        Id_lot = Convert.ToInt32(reader["Id_lot"])
-                        // доделать для других, чтобы убрать конструкторы
-                    };
+                        Id_lot = Convert.ToInt32(reader.GetValue(0)),
+                        Id_creator = Convert.ToInt32(reader.GetValue(1)),
+                        Name = Convert.ToString(reader.GetValue(2)),
+                        Start_price = Convert.ToInt32(reader.GetValue(3)),
+                        Start_time = Convert.ToDateTime(reader.GetValue(4)),
+                        Status = Convert.ToBoolean(reader.GetValue(5)),
+                        Creator = usersStorage.GetInfoUser(Convert.ToInt32(reader.GetValue(1)))
+                    });
+                }
+                return lots;
+            }
+        }
+
+        public ICollection<Lot> SelectMyLots(int id_user)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                SqlCommand sql_command = Get_sql_command(connection, "dbo.My_Lots");
+                //sql_command.CommandType = System.Data.CommandType.StoredProcedure;
+                sql_command.Parameters.Add(Get_sql_parameter("v1", id_user, DbType.Int32));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                List<Lot> lots = new List<Lot>();
+                while (reader.Read())
+                {
+                    lots.Add(new Lot()
+                    {
+                        Id_lot = Convert.ToInt32(reader.GetValue(0)),
+                        Id_creator = Convert.ToInt32(reader.GetValue(1)),
+                        Name = Convert.ToString(reader.GetValue(2)),
+                        Start_price = Convert.ToInt32(reader.GetValue(3)),
+                        Start_time = Convert.ToDateTime(reader.GetValue(4)),
+                        Status = Convert.ToBoolean(reader.GetValue(5)),
+                        Creator = usersStorage.GetInfoUser(Convert.ToInt32(reader.GetValue(1)))
+                    });
                 }
                 return lots;
             }
