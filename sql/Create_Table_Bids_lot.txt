@@ -1,0 +1,9 @@
+CREATE TABLE [dbo].[Bids_lot] (
+    [Id_lot]       INT      NOT NULL,
+    [Id_user]      INT      NOT NULL,
+    [Price]        MONEY    NOT NULL,
+    [Bidding_time] DATETIME NOT NULL,
+    FOREIGN KEY ([Id_lot]) REFERENCES [dbo].[Lots] ([Id_lot]),
+    FOREIGN KEY ([Id_user]) REFERENCES [dbo].[Users] ([Id_user])
+);
+

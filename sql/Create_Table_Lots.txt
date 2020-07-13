@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[Lots] (
+    [Id_lot]      INT           IDENTITY (1, 1) NOT NULL,
+    [Id_creator]  INT           NOT NULL,
+    [Name]        NVARCHAR (64) NOT NULL,
+    [Start_price] MONEY         NOT NULL,
+    [Start_time]  DATETIME      NOT NULL,
+    [Status]      BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id_lot] ASC),
+    FOREIGN KEY ([Id_creator]) REFERENCES [dbo].[Users] ([Id_user])
+);

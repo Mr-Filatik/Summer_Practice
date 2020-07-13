@@ -1,0 +1,8 @@
+CREATE PROCEDURE [dbo].[Final_notes] 
+@v1 int
+AS
+BEGIN
+    SELECT TOP 1 B.Id_lot FROM Bids_lot B 
+	WHERE B.Id_lot = @v1 
+	ORDER BY B.Bidding_time DESC;
+END;

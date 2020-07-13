@@ -1,0 +1,5 @@
+CREATE PROC [dbo].[Bids_this_lot] (@v1 INT, @v2 INT, @v3 MONEY, @v4 DATETIME) AS
+BEGIN
+	INSERT INTO Bids_lot(Id_lot, Id_user, Price, Bidding_time)
+	VALUES(@v1, @v2, @v3, @v4)
+END

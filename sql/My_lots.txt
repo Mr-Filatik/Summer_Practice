@@ -1,0 +1,7 @@
+CREATE PROCEDURE [dbo].[My_lots] 
+@v1 INT
+AS
+BEGIN
+    SELECT L.Id_lot, L.Id_creator, L.Name, L.Start_price, L.Start_time, L.Status FROM Lots L
+	WHERE L.Id_creator = @v1;
+END;

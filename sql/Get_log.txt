@@ -1,0 +1,6 @@
+CREATE PROCEDURE [dbo].[Get_log] 
+@v1 NVARCHAR(64)
+AS
+BEGIN
+    SELECT Id_user FROM Users WHERE Users.Login = @v1;
+END;

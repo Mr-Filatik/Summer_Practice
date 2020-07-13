@@ -1,0 +1,6 @@
+CREATE PROCEDURE [dbo].[Get_creator] 
+@v1 INT
+AS
+BEGIN
+	SELECT Id_creator FROM Lots WHERE Id_lot = @v1;
+END;

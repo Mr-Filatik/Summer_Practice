@@ -1,0 +1,7 @@
+CREATE PROCEDURE [dbo].[Get_pas] 
+@v1 NVARCHAR(64),
+@v2 NVARCHAR(64)
+AS
+BEGIN
+    SELECT Id_user FROM Users WHERE Users.Login = @v1 AND Users.Password = @v2;
+END;

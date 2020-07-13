@@ -1,0 +1,7 @@
+CREATE PROC [dbo].[Delete_lot] 
+@v1 INT
+AS
+BEGIN
+    DELETE FROM Bids_lot WHERE Id_lot = @v1
+    DELETE FROM Lots WHERE Id_lot = @v1
+END

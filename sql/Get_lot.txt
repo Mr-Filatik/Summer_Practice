@@ -1,0 +1,6 @@
+CREATE PROCEDURE [dbo].[Get_lot] 
+@v1 int
+AS
+BEGIN
+	SELECT 1 FROM Lots L WHERE L.Id_lot = @v1;
+END;

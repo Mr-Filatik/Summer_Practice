@@ -1,0 +1,6 @@
+CREATE PROCEDURE [dbo].[Get_Info_User] 
+@v1 INT
+AS
+BEGIN
+    SELECT Id_user, Name, Surname, Phone, Email FROM Users WHERE Users.Id_user = @v1;
+END;

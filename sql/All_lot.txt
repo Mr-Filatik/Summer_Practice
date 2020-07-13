@@ -1,0 +1,7 @@
+CREATE PROCEDURE [dbo].[All_lots] AS
+BEGIN
+	SELECT L.Id_lot, L.Id_creator, L.Name, 
+	(SELECT TOP 1 B.Price FROM Bids_lot B WHERE L.Id_lot = B.Id_lot ORDER BY B.Bidding_time DESC), 
+	(SELECT TOP 1 B.Bidding_time FROM Bids_lot B WHERE L.Id_lot = B.Id_lot ORDER BY B.Bidding_time DESC), 
+	L.Status FROM Lots L WHERE L.Status = CAST(0 as bit);
+END;
