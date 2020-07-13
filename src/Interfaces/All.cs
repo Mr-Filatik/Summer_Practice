@@ -18,10 +18,13 @@ namespace Interfaces
         void DeleteLot(int id_lot);
         void AddBindLot(int id_user, int number, int price);
         int GetCreator(int number);
+        Lot SelectLot(int id_lot);
 
         int GetLog(string id);
         int GetPas(string log, string id);
+
     }
+
 
     public interface ILotsStorage
     {
@@ -31,8 +34,10 @@ namespace Interfaces
         void DeleteLot(int id_lot);
         void AddBindLot(int id_user, int number, int price);
         int GetCreator(int number);
+        Lot SelectLot(int id_lot);
 
         int GetLog(string id);
         int GetPas(string log, string id);
+
     }
 }

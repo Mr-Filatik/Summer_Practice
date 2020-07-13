@@ -54,6 +54,33 @@ namespace AuktionEPAM.DAL
             }
         }
 
+        public Lot SelectLot(int id_lot)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.One_Lot");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", id_lot, DbType.Int32));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                Lot lot = null;
+                while (reader.Read())
+                {
+                    lot = new Lot()
+                    {
+                        Id_lot = Convert.ToInt32(reader.GetValue(0)),
+                        Id_creator = Convert.ToInt32(reader.GetValue(1)),
+                        Name = Convert.ToString(reader.GetValue(2)),
+                        Start_price = Convert.ToInt32(reader.GetValue(3)),
+                        Start_time = Convert.ToDateTime(reader.GetValue(4)),
+                        Status = Convert.ToBoolean(reader.GetValue(5)),
+                        Creator = usersStorage.GetInfoUser(Convert.ToInt32(reader.GetValue(1))),
+                        Buyer = usersStorage.GetInfoUser(Convert.ToInt32(reader.GetValue(6)))
+                    };
+                }
+                return lot;
+            }
+        }
+
         public ICollection<Lot> SelectMyLots(int id_user)
         {
             using (var connection = new SqlConnection(Function.connectionString))

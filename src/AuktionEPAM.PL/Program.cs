@@ -63,20 +63,19 @@ namespace AuktionEPAM.PL
                         }
                         break;
                     case 2:
-                        /*var newUser = new User()
+                        Console.WriteLine("Введите логин");
+                        log = Console.ReadLine();
+                        Console.WriteLine("Введите пароль");
+                        pas = Console.ReadLine();
+                        if (ILotsManager.GetLog(log) == 0)
                         {
-                            Id_user = 0,
-                            Login = 1,
-                            Password = name,
-                            Name = price,
-                            Surname = DateTime.Now,
-                            Email = false,
-                            Phone = null
-                        };
-                        lots = ILotsManager.SelectAllLots();
-                        ShowLots(lots);
-                        */
-                        SelectByUser();
+                            //User user = new User() { Id_user };
+                        }
+                        else
+                        {
+                            Console.WriteLine("Пользователь с таким логином уже существует");
+                        }
+                        SelectUser();
                         break;
                 }
             }
@@ -88,13 +87,14 @@ namespace AuktionEPAM.PL
             Console.WriteLine("Введите 1 чтобы создать лот");
             Console.WriteLine("Введите 2 чтобы показать все доступные лоты");
             Console.WriteLine("Введите 3 чтобы показать созданные мною лоты");
-            Console.WriteLine("Введите 4 чтобы предложить цену");
-            Console.WriteLine("Введите 5 чтобы удалить лот");
+            Console.WriteLine("Введите 4 чтобы показать полную информацию по лоту");
+            Console.WriteLine("Введите 5 чтобы предложить цену");
+            Console.WriteLine("Введите 6 чтобы удалить лот");
             Console.WriteLine("Введите 0 чтобы выйти из профиля");
             var input = Console.ReadLine();
             if (uint.TryParse(input, out uint result)
                 && result >= 0
-                && result <= 5)
+                && result <= 6)
             {
                 int id_lot;
                 int price;
@@ -136,12 +136,19 @@ namespace AuktionEPAM.PL
                     case 4:
                         Console.WriteLine("Введите номер выбранного лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
+                        Lot lot = ILotsManager.SelectLot(id_lot);
+                        ShowLots(lot);
+                        SelectByUser();
+                        break;
+                    case 5:
+                        Console.WriteLine("Введите номер выбранного лота");
+                        id_lot = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Введите новую цену лота");
                         price = Convert.ToInt32(Console.ReadLine());
                         ILotsManager.AddBindLot(u_id, id_lot, price);
                         SelectByUser();
                         break;
-                    case 5:
+                    case 6:
                         Console.WriteLine("Введите номер удаляемого лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
                         if (ILotsManager.GetCreator(id_lot) == u_id)
@@ -168,6 +175,24 @@ namespace AuktionEPAM.PL
                 Console.WriteLine("Создатель: {0} {1}", i.Creator.Name, i.Creator.Surname);
                 Console.WriteLine();
             }
+        }
+        private static void ShowLots(Lot lot)
+        {
+            if (lot != null)
+            {
+                Console.WriteLine("Лот номер: {0}.  Наименование лота: {1}", lot.Id_lot, lot.Name);
+                Console.WriteLine("Создатель: {0} {1}", lot.Creator.Name, lot.Creator.Surname);
+                Console.WriteLine("Почта: {0}  Телефон: {1}", lot.Creator.Email, lot.Creator.Phone);
+                Console.WriteLine("Цена: {0}  Время изменения цены: {1}", lot.Start_price, lot.Start_time);
+                Console.WriteLine("Покупатель: {0} {1}", lot.Buyer.Name, lot.Buyer.Surname);
+                Console.WriteLine("Почта: {0}  Телефон: {1}", lot.Buyer.Email, lot.Buyer.Phone);
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Такого лота не существует");
+            }
+            
         }
     }
 }

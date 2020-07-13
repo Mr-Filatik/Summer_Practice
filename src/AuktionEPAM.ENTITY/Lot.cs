@@ -13,7 +13,8 @@ namespace AuktionEPAM.ENTITY
         public DateTime Start_time { get; set; }
         public bool Status { get; set; }
         public User Creator { get; set; }
-        
+        public User Buyer { get; set; }
+
         public Lot() { }
     }
 }
