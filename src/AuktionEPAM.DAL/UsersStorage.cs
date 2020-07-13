@@ -9,6 +9,39 @@ namespace AuktionEPAM.DAL
 {
     public class UsersStorage
     {
+        public int GetLog(string log)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Get_log");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", log, DbType.String));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                int user = 0;
+                while (reader.Read())
+                {
+                    user = Convert.ToInt32(reader.GetValue(0));
+                }
+                return Convert.ToInt32(user);
+            }
+        }
+        public int GetPas(string log, string pas)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Get_pas");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", log, DbType.String));
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v2", pas, DbType.String));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                int user = 0;
+                while (reader.Read())
+                {
+                    user = Convert.ToInt32(reader.GetValue(0));
+                }
+                return Convert.ToInt32(user);
+            }
+        }
         public User GetInfoUser(int id_user)
         {
             using (var connection = new SqlConnection(Function.connectionString))

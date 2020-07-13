@@ -12,11 +12,76 @@ namespace AuktionEPAM.PL
     class Program
     {
         public static ILotsManager ILotsManager { get; } = new ILotsManager();
+        static int u_id = 0;
 
         static void Main(string[] args)
         {
-            SelectByUser();
+            SelectUser();
         }
+
+        private static void SelectUser()
+        {
+            Console.WriteLine("Выберите опцию");
+            Console.WriteLine("Введите 1 чтобы авторизоваться");
+            Console.WriteLine("Введите 2 чтобы зарегистрироваться");
+            Console.WriteLine("Введите 0 чтобы выйти из приложения");
+            var input = Console.ReadLine();
+            if (uint.TryParse(input, out uint result)
+                && result >= 0
+                && result <= 2)
+            {
+                string log;
+                string pas;
+                //int log_id = 0;
+                //int pas_id = 0;
+                switch (result)
+                {
+                    case 0:
+                        return;
+                    case 1:
+                        Console.WriteLine("Введите логин");
+                        log = Console.ReadLine();
+                        Console.WriteLine("Введите пароль");
+                        pas = Console.ReadLine();
+                        if (ILotsManager.GetLog(log) != 0)
+                        {
+                            if (ILotsManager.GetPas(log, pas) != 0)
+                            {
+                                u_id = Convert.ToInt32(ILotsManager.GetPas(log, pas));
+                                SelectByUser();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Неверный пароль");
+                                SelectUser();
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Неверный логин");
+                            SelectUser();
+                        }
+                        break;
+                    case 2:
+                        /*var newUser = new User()
+                        {
+                            Id_user = 0,
+                            Login = 1,
+                            Password = name,
+                            Name = price,
+                            Surname = DateTime.Now,
+                            Email = false,
+                            Phone = null
+                        };
+                        lots = ILotsManager.SelectAllLots();
+                        ShowLots(lots);
+                        */
+                        SelectByUser();
+                        break;
+                }
+            }
+        }
+
         private static void SelectByUser()
         {
             Console.WriteLine("Выберите опцию");
@@ -25,7 +90,7 @@ namespace AuktionEPAM.PL
             Console.WriteLine("Введите 3 чтобы показать созданные мною лоты");
             Console.WriteLine("Введите 4 чтобы предложить цену");
             Console.WriteLine("Введите 5 чтобы удалить лот");
-            Console.WriteLine("Введите 0 чтобы выйти из приложения");
+            Console.WriteLine("Введите 0 чтобы выйти из профиля");
             var input = Console.ReadLine();
             if (uint.TryParse(input, out uint result)
                 && result >= 0
@@ -37,7 +102,9 @@ namespace AuktionEPAM.PL
                 switch (result)
                 {
                     case 0:
-                        return;
+                        SelectUser();
+                        u_id = 0;
+                        break;
                     case 1:
                         Console.WriteLine("Введите название добавляемого лота");
                         string name = Console.ReadLine();
@@ -46,7 +113,7 @@ namespace AuktionEPAM.PL
                         var newLot = new Lot()
                         {
                             Id_lot = 0,
-                            Id_creator = 1,
+                            Id_creator = u_id,
                             Name = name,
                             Start_price = price,
                             Start_time = DateTime.Now,
@@ -62,7 +129,7 @@ namespace AuktionEPAM.PL
                         SelectByUser();
                         break;
                     case 3:
-                        lots = ILotsManager.SelectMyLots(1);
+                        lots = ILotsManager.SelectMyLots(u_id);
                         ShowLots(lots);
                         SelectByUser();
                         break;
@@ -71,18 +138,27 @@ namespace AuktionEPAM.PL
                         id_lot = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Введите новую цену лота");
                         price = Convert.ToInt32(Console.ReadLine());
-                        ILotsManager.AddBindLot(1, id_lot, price);
+                        ILotsManager.AddBindLot(u_id, id_lot, price);
                         SelectByUser();
                         break;
                     case 5:
                         Console.WriteLine("Введите номер удаляемого лота");
                         id_lot = Convert.ToInt32(Console.ReadLine());
-                        ILotsManager.DeleteLot(id_lot);
-                        SelectByUser();
+                        if (ILotsManager.GetCreator(id_lot) == u_id)
+                        {
+                            ILotsManager.DeleteLot(id_lot);
+                            SelectByUser();
+                        }
+                        else
+                        {
+                            Console.WriteLine("У вас недостаточно прав");
+                            SelectByUser();
+                        }
                         break;
                 }
             }
         }
+
         private static void ShowLots(ICollection<Lot> lots)
         {
             foreach (Lot i in lots)

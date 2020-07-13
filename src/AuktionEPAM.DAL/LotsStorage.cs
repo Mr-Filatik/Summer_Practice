@@ -144,5 +144,31 @@ namespace AuktionEPAM.DAL
                 sql_command.ExecuteReader();
             }
         }
+
+        public int GetCreator(int number)
+        {
+            using (var connection = new SqlConnection(Function.connectionString))
+            {
+                SqlCommand sql_command = Function.Get_sql_command(connection, "dbo.Get_creator");
+                sql_command.Parameters.Add(Function.Get_sql_parameter("v1", number, DbType.Int32));
+                connection.Open();
+                var reader = sql_command.ExecuteReader();
+                int user = 0;
+                while (reader.Read())
+                {
+                    user = Convert.ToInt32(reader.GetValue(0));
+                }
+                return Convert.ToInt32(user);
+            }
+        }
+
+        public int GetLog(string log)
+        {
+            return usersStorage.GetLog(log);
+        }
+        public int GetPas(string log, string pas)
+        {
+            return usersStorage.GetPas(log, pas);
+        }
     }
 }

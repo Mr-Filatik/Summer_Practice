@@ -32,7 +32,18 @@ namespace AuktionEPAM.BLL
         {
             iLotStorage.AddBindLot(id_user, number, price);
         }
-
+        public int GetLog(string log)
+        {
+            return iLotStorage.GetLog(log);
+        }
+        public int GetPas(string log, string pas)
+        {
+            return iLotStorage.GetPas(log, pas);
+        }
+        public int GetCreator(int number)
+        {
+            return iLotStorage.GetCreator(number);
+        }
 
         public ILotsManager()
         {
